@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1933877494/@react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/-1933877494/@react-native-community_async-storage.iml" group="template/@react-native-community_async-storage" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="template/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1933877494/react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/-1933877494/react-native-community_async-storage.iml" group="template/react-native-community_async-storage" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1216936071/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/1216936071/react-native-community_masked-view.iml" group="template/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/469517872/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/469517872/react-native-gesture-handler.iml" group="template/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/746264500/react-native-i18n.iml" filepath="$PROJECT_DIR$/.idea/modules/746264500/react-native-i18n.iml" group="template/react-native-i18n" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-302098877/react-native-locale-detector.iml" filepath="$PROJECT_DIR$/.idea/modules/-302098877/react-native-locale-detector.iml" group="template/react-native-locale-detector" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/153172460/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/153172460/react-native-reanimated.iml" group="template/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/953546361/react-native-restart.iml" filepath="$PROJECT_DIR$/.idea/modules/953546361/react-native-restart.iml" group="template/react-native-restart" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/886477465/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/886477465/react-native-safe-area-context.iml" group="template/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1530047985/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/1530047985/react-native-screens.iml" group="template/react-native-screens" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/template.iml" filepath="$PROJECT_DIR$/.idea/modules/template.iml" group="template" />
+    </modules>
+  </component>
+</project>

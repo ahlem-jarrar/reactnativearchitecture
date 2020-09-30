@@ -1,0 +1,134 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+#update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  
+  before_all do
+    # Select the Xcode version to be used
+    xcode_select "/Applications/Xcode_11_5.app"
+  end
+
+### Build
+  desc "Build and test"
+  lane :build_and_test do |options|
+    cocoapods(try_repo_update_on_error: true)
+
+    scan(
+      #/!\You can only pass either a 'project' or a 'workspace', not both/!\
+      #project: options[:project], 
+      workspace: options[:workspace], 
+      scheme: options[:scheme], 
+      code_coverage: true, 
+      clean: true, 
+      output_directory: "./sonar-reports",
+      derived_data_path: "./derived-data",
+      use_clang_report_name: true,
+      output_types: "junit,json-compilation-database", 
+      xcargs:"COMPILER_INDEX_STORE_ENABLE=NO"
+    )
+  end
+
+  desc "Export a distribution build"
+  lane :build_and_export do |options|
+    cocoapods(try_repo_update_on_error: true)
+
+    gym(
+      #/!\You can only pass either a 'project' or a 'workspace', not both/!\
+      #project: options[:project],
+      workspace: options[:workspace],
+      scheme: options[:scheme],
+      configuration: options[:configuration],
+      export_method: options[:export_method],
+      output_name: options[:output_name],
+      silent: true,
+      include_bitcode: false,
+      suppress_xcode_output: false
+    )
+  end
+
+### Analysis
+  desc "Static code analysis"
+  lane :analyse do |options|
+    #OCLint is a static code analysis tool for improving quality and reducing defects by inspecting C, C++ and Objective-C code and looking for potential problems. We are using big violation limits to avoid non zero status codes (more details here: https://oclint-docs.readthedocs.io/en/stable/manual/oclint.html#exit-status-options)
+    oclint(compile_commands:"sonar-reports/compile_commands.json", report_type:"pmd", report_path:"sonar-reports/oclint.xml", exclude_regex:/Pods/, max_priority_1:100000, max_priority_2:100000, max_priority_3:100000)
+    #Generate test coverage reports for Xcode projects (https://github.com/SlatherOrg/slather)
+    slather(proj: options[:project], workspace: options[:workspace], scheme: options[:scheme], cobertura_xml: true, build_directory: "./derived-data", output_directory: "./sonar-reports")
+    #Lizard is an extensible Cyclomatic Complexity Analyzer for many programming languages including C/C++ (https://github.com/terryyin/lizard)
+    lizard(source_folder: options[:sources_path], language: "swift,objectivec", export_type: "xml", report_file: "sonar-reports/lizard-report.xml")
+    #SwiftLint is a tool to enforce Swift style and conventions (https://github.com/realm/SwiftLint)
+    swiftlint(output_file: "./sonar-reports/swiftlint.txt", ignore_exit_status: true)
+    #Invokes sonar-scanner
+    sonar(sonar_login: options[:sonar_login], project_key: options[:sonar_project_key], project_name: options[:sonar_project_name], project_version: options[:sonar_project_version], sources_path: options[:sources_path])
+  end
+
+### Delivery
+  desc "Deploys a new build on Fabric"
+  lane :deliver_fabric do |options|
+    crashlytics(
+      api_token: options[:api_token],
+      build_secret: options[:build_secret],
+      ipa_path: options[:ipa_path],
+      notifications: true
+    )
+  end
+
+  desc "Deploys a new build on Firebase"
+  lane :deliver_firebase do |options|
+    firebase_app_distribution(
+      app: options[:app_identifier],
+      ipa_path: options[:ipa_path],
+      testers: options[:testers],
+      firebase_cli_path: options[:firebase_cli_path]
+    )
+  end
+
+  desc "Deploys a new build on TestFlight"
+  lane :deliver_testflight do |options|
+    pilot(
+      changelog: File.read("changelog.txt"),
+      ipa: options[:ipa_path],
+      team_name: options[:team_name], # The name of the App Store Connect team (needed if enrolled in multiple teams)
+      skip_submission: false,
+      skip_waiting_for_build_processing: false,
+      groups: options[:groups]
+    ) 
+  end
+
+### Others
+  desc "Import and install the right certificate and provisionning profile"
+  lane :prepare_signature do |options|
+    match(
+      readonly: true,
+      keychain_name: options[:keychain_name],
+      keychain_password: options[:keychain_password]
+    )
+
+    team_id = "sigh_" + options[:app_identifier] + "_" + options[:export_method] + "_team-id"
+    profile_name = "sigh_" + options[:app_identifier] + "_" + options[:export_method_alias] + "_profile-name"
+    profile_path = "sigh_" + options[:app_identifier] + "_" + options[:export_method_alias] + "_profile-path"
+
+    update_code_signing_settings(
+      path: options[:project],
+      use_automatic_signing: false,
+      team_id: ENV[team_id],
+      build_configurations: options[:configuration],
+      code_sign_identity: options[:code_signing_identity],
+      profile_name: ENV[profile_name],
+    )
+  end
+
+end

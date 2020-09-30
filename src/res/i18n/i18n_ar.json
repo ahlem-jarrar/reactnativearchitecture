@@ -1,0 +1,13 @@
+{
+  "LOGIN_TITLE":"مرحباً ",
+
+  "EMAIL":"البريد الإلكتروني",
+  "PASSWORD":"كلمه السر",
+  "VALIDATE": "حفظ",
+  "CANCEL": "الغاء",
+  "DELETE": "حذف",
+  "RESET": "إعادة تعيين",
+  "SUBMITTING": "...تقديم",
+  "COMING_SOON": "هذه الصفحة على قيد التطوير",
+  "CHANGE_LANGUAGE": "تغيير اللغة"
+}

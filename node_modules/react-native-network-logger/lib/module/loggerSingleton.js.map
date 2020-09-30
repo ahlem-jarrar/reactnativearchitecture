@@ -1,0 +1,1 @@
+{"version":3,"sources":["loggerSingleton.ts"],"names":["Logger","logger"],"mappings":"AAAA,OAAOA,MAAP,MAAmB,UAAnB;AAEA,MAAMC,MAAM,GAAG,IAAID,MAAJ,EAAf;AAEA,eAAeC,MAAf","sourcesContent":["import Logger from './Logger';\n\nconst logger = new Logger();\n\nexport default logger;\n"]}

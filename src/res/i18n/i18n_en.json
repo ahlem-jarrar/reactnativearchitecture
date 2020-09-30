@@ -1,0 +1,10 @@
+{
+  "LOGIN_TITLE":"Hello ",
+  "EMAIL":"Email",
+  "PASSWORD":"password",
+  "VALIDATE": "Save",
+  "CANCEL": "Cancel",
+  "DELETE": "Delete",
+  "RESET": "Reset",
+  "CHANGE_LANGUAGE": "Change language"
+}
